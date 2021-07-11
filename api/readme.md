@@ -17,6 +17,7 @@ Returns a simple `Ping!` message if teh API is running
 Query Parameters:
 1. **username** -> **String**
 2. **password** -> **String**
+
 Returns a JSON response of 500 if there was an API issue, 401 if the username and password don't correspond to a valid user, or 200 if the credentials prompt a successful login
 
 Sample 200 Response
