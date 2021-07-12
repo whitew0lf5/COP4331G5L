@@ -10,10 +10,10 @@ All API endpoints are prefixed with `http://198.199.67.109:5000` if run on the D
 
 ## Endpoints
 
-### /ping
+### /api/ping
 Returns a simple `Ping!` message if teh API is running
 
-### /login
+### /api/login
 Query Parameters:
 1. **username** -> **String**
 2. **password** -> **String**
@@ -33,3 +33,11 @@ Sample 200 Response
 	}
 }
 ```
+
+### /api/register
+Query Parameters
+
+1. **username** -> **String**
+2. **password** -> **String**
+
+Returns a response code of 500 if database crud fails, 409 if a user with the associated username already exists, and 200 if the user was registered successfully
