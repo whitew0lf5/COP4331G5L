@@ -4,14 +4,17 @@ const mongoclient = require("mongodb").MongoClient;
 const objectid = require("mongodb").ObjectId;
 const https = require('https');
 const sets = require('../data/sets.json')
+const cors = require('cors')
 
 const CONNECTION_URL = "mongodb://localhost:27017";
 const DATABASE_NAME = "cop4331"
 
 const app = express();
 const port = 5000;
+app.use(cors())
 app.use(bp.json());
 app.use(bp.urlencoded({ extended: true }));
+
 var database, collection;
 
 // -- API ROUTES --
@@ -26,7 +29,7 @@ app.get('/api/login', (req, res) => {
 			return res.status(500).send(error);
 		}
 		if (result) {
-			res.status(200).send({"message": "Login Successful", "username": req.query.username, "cards": result.cards});
+			res.status(200).send({"message": "Login Successful", "username": req.query.username, "sets": result.sets});
 		} else {
 			res.status(401).send({"message": "Invalid User"});
 		}
