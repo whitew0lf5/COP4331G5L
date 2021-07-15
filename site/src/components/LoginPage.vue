@@ -24,7 +24,7 @@
                         <label class="mx-auto" id="loginError">Invalid Username or Password</label>
                     </v-row>
                     <v-row>
-                        <v-btn class="mx-auto">Sign Up</v-btn>
+                        <v-btn class="mx-auto" to="/register">Sign Up</v-btn>
                         <v-btn class="mx-auto" v-on:click="performLogin">Login</v-btn>
                     </v-row>
                     <a href="https://www.xbox.com/en-US/" target="_blank">Forgot password</a>
@@ -49,7 +49,7 @@ export default {
     }),
     methods: {
       performLogin () {
-        axios.get('http://198.199.67.109:5000/api/login', {
+        axios.get('http://198.199.67.109:3000/api/login', {
             params: {
                 username: this.usernameInput,
                 password: this.passwordInput
@@ -62,9 +62,6 @@ export default {
         })
         .catch(function (error) {
             console.log(error)
-            document.getElementById("loginError").style.display = "inline"
-        })
-        .then(function () {
             document.getElementById("loginError").style.display = "inline"
         })
       }

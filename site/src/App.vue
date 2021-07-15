@@ -1,5 +1,5 @@
 <template>
-    <v-app style="background: #161618">
+    <v-app>
         <v-app-bar app color="#DA3B24" dark>
             <div class="d-flex align-center">
                 <v-img
@@ -28,21 +28,6 @@
 
 <script>
 export default {
-    computed: {
-        cssTheme() {
-            const out = {};
-            for (const name of Object.keys(this.$vuetify.theme.themes.dark)) {
-                out[`--v-color-dark-${name}`] = this.$vuetify.theme.themes.dark[name];
-                out[`--v-color-light-${name}`] = this.$vuetify.theme.themes.light[name];
-                out[`--v-color-${name}`] = this.$vuetify.theme.isDark ?
-                this.$vuetify.theme.themes.dark[name] :
-                this.$vuetify.theme.themes.light[name]
-            }
-            out[`--v-text-color-${name}`] = this.$vuetify.theme.isDark ?
-                'white' : 'black'
-            return out;
-        }
-    },
     name: 'App',
 
     data: () => ({
@@ -50,3 +35,10 @@ export default {
     }),
 };
 </script>
+
+<style>
+#app{
+    background: url('./assets/bluebg.jpg');
+    background-size: cover;
+}
+</style>

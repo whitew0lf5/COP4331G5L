@@ -10,7 +10,7 @@ const CONNECTION_URL = "mongodb://localhost:27017";
 const DATABASE_NAME = "cop4331"
 
 const app = express();
-const port = 5000;
+const port = 3000;
 app.use(cors())
 app.use(bp.json());
 app.use(bp.urlencoded({ extended: true }));
@@ -36,6 +36,7 @@ app.get('/api/login', (req, res) => {
 	});
 });
 
+// TODO findOne and insertOne are both running. must fix
 // Attempt to register a user if there isn't one with the passed username already. Params <username(String), password(String)>
 app.post('/api/register', (req, res) => {
 	collection.findOne({ username: req.query.username }, function(error, result) {
@@ -43,10 +44,11 @@ app.post('/api/register', (req, res) => {
 			return res.status(500).send(error);
 		}
 		if (result) {
+			console.log("test2")
 			return res.status(409).send({"message": "Username already associated with existing user"});
 		}
 	});
-
+	console.log("test")
 	// Build a dictionary/hashmap/object of set IDs that will map to an array of owned cards
 	var userSets = {};
 	for (var i = 0; i < sets.data.length; i++) {
@@ -58,7 +60,10 @@ app.post('/api/register', (req, res) => {
 		if (error) {
 			return res.status(500).send(error);
 		}
-		res.status(200).send({"message": "Register Successful"})
+		if (result) {
+			return res.status(200).send({"message": "Register Successful"})
+		}
+		
 	})
 });
 
