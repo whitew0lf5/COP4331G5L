@@ -14,7 +14,6 @@
                 <h1 class="display-1 font-weight-bold">
                     Dream Team Games Card Collection Manager
                 </h1>
-                
             </div>
 
             <v-spacer></v-spacer>
@@ -37,7 +36,7 @@ export default {
 </script>
 
 <style>
-#app{
+#app {
     background: url('./assets/bluebg.jpg');
     background-size: cover;
 }
