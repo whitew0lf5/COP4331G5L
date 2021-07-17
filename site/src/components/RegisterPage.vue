@@ -102,45 +102,49 @@
       		rules: {
       			required: value => !!value || 'Required',
       			min: v => v.length >= 8 || 'Minimum of 8 characters',
-      			
       		}
 		}),
-		methods: {//(this.passwordInput == this.passwordInput2) ? [] : 'Passwords must match'
+		methods: {
 			performRegistration() {
 				this.loading = true
 				document.getElementById("registerError").innerHTML = ""
 				document.getElementById("registerError").style.display = "none"
-				if (this.passwordInput1 !== this.passwordInput2) {
-					this.loading = false
-					document.getElementById("registerError").innerHTML = "Both password fields must match"
-					document.getElementById("registerError").style.display = "inline"
-					return
-				}
-				if (this.usernameInput === "") {
-					this.loading = false
-					return
-				}
-				axios.post('http://198.199.67.109:3000/api/register', {
-					params: {
-						username: this.usernameInput,
-						password: this.passwordInput1
+				if (this.$refs.form.validate()) {
+					if (this.passwordInput1 !== this.passwordInput2) {
+						this.loading = false
+						document.getElementById("registerError").innerHTML = "Both password fields must match"
+						document.getElementById("registerError").style.display = "inline"
+						return
 					}
-				})
-				.then((response) => {
-				 	console.log(response);
-				 	this.loading = false
-				 	this.$router.push('/');
-				}, (error) => {
-					console.log(error);
+					if (this.usernameInput === "") {
+						this.loading = false
+						return
+					}
+					axios.post('http://198.199.67.109:3000/api/register', {
+						params: {
+							username: this.usernameInput,
+							password: this.passwordInput1
+						}
+					})
+					.then((response) => {
+					 	console.log(response);
+					 	this.loading = false
+					 	this.$router.push('/');
+					}, (error) => {
+						console.log(error);
+						this.loading = false
+						document.getElementById("registerError").innerHTML = "Username already in use"
+						document.getElementById("registerError").style.display = "inline"
+
+					});
+				} else {
 					this.loading = false
-					document.getElementById("registerError").innerHTML = "Username already in use"
-					document.getElementById("registerError").style.display = "inline"
-				});
+				}
 			}
 		},
 		mounted() {
         document.getElementById("registerError").style.display = "none"
-    }
+    	}
 	}
 	
 </script>

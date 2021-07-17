@@ -3,7 +3,7 @@
         <v-app-bar app color="#DA3B24" dark>
             <div class="d-flex align-center">
                 <v-img
-                    alt="Vuetify Logo"
+                    alt="Pokeball icon"
                     class="shrink mr-2"
                     contain
                     :src="require('./assets/pokeball.svg')"

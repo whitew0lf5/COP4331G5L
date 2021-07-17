@@ -2,6 +2,7 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Login from '../views/Login.vue';
 import Register from '../views/Register.vue'
+import Sets from '../views/Sets.vue'
 
 Vue.use(VueRouter);
 
@@ -16,6 +17,11 @@ const routes = [
         name: 'Register',
         component: Register
     },
+    {
+        path: '/sets',
+        name: 'Sets',
+        component: Sets
+    }
 ];
 
 const router = new VueRouter({

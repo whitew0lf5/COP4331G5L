@@ -36,7 +36,6 @@ app.get('/api/login', (req, res) => {
 	});
 });
 
-// TODO findOne and insertOne are both running. must fix
 // Attempt to register a user if there isn't one with the passed username already. Params <username(String), password(String)>
 app.post('/api/register', (req, res) => {
 	collection.findOne({ username: req.query.username }, function(error, result) {
@@ -44,27 +43,27 @@ app.post('/api/register', (req, res) => {
 			return res.status(500).send(error);
 		}
 		if (result) {
-			console.log("test2")
 			return res.status(409).send({"message": "Username already associated with existing user"});
+		} else {
+			// Build a dictionary/hashmap/object of set IDs that will map to an array of owned cards
+			var userSets = {};
+			for (var i = 0; i < sets.data.length; i++) {
+				var setID = sets.data[i]["id"];
+				userSets[setID] = []; 
+			}
+
+			collection.insertOne({"username": req.query.username, "password": req.query.password, "sets": userSets}, (error, result) => {
+				if (error) {
+					return res.status(500).send(error);
+				}
+				if (result) {
+					return res.status(200).send({"message": "Register Successful"});
+				} else {
+					return res.status(500).send({"message": "Database write operation failed"});
+				}
+			})
 		}
 	});
-	console.log("test")
-	// Build a dictionary/hashmap/object of set IDs that will map to an array of owned cards
-	var userSets = {};
-	for (var i = 0; i < sets.data.length; i++) {
-		var setID = sets.data[i]["id"];
-		userSets[setID] = []; 
-	}
-
-	collection.insertOne({"username": req.query.username, "password": req.query.password, "sets": userSets}, (error, result) => {
-		if (error) {
-			return res.status(500).send(error);
-		}
-		if (result) {
-			return res.status(200).send({"message": "Register Successful"})
-		}
-		
-	})
 });
 
 // Connect to the database and launch the API
