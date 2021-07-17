@@ -9,11 +9,9 @@ const { width: viewportWidth, height: viewportHeight } = Dimensions.get('window'
 
 global.loginName = '';
 global.password = '';
-global.userId = -1;
-global.firstName = '';
-global.lastName = '';
-global.search = '';
-global.card = '';
+global.registerName = '';
+global.registerPassword = '';
+global.registerSecondPassword = '';
 
 export default class Homescreen extends Component 
 { 
@@ -21,13 +19,19 @@ export default class Homescreen extends Component
     toggleOverlayOpen = () => this.setState({modalVisible: true});
     toggleOverlayClose = () => this.setState({modalVisible: false});
 
+    onCloseR = () => this.setState({registerVisible: false});
+    toggleOverlayOpenR = () => this.setState({registerVisible: true});
+    toggleOverlayCloseR = () => this.setState({registerVisible: false});
+
     constructor()   
     {    
         super()    
         this.state =     
         {       
             message: "",
-            modalVisible: false    
+            registerMessage: "",
+            modalVisible: false,
+            registerVisible: false  
         }  
     }
 
@@ -56,10 +60,35 @@ export default class Homescreen extends Component
         <Button title="Login" onPress={this.handleClick}/>
         <Text style={{fontSize:15, backgroundColor: 'transparent', color: 'black'}}>{this.state.message}</Text>
         </Overlay>
+
+        <Overlay visible={this.state.registerVisible} onClose={this.onCloseR} closeOnTouchOutside>
+        <ImageBackground source={{uri:'https://image.shutterstock.com/image-vector/hi-there-inscription-handwritten-lettering-260nw-1798736197.jpg',}}style={{flex: 1}}/>
+         
+        <View style={{alignItems: 'flex-end', alignItems: 'center'}}>        
+        <View style={{ flexDirection:'row' }}>          
+        <Text style={{fontSize:20, color: 'black', backgroundColor : 'transparent'}}>Username: </Text>          
+        <TextInput style={{height: 30,fontSize:20, backgroundColor:'transparent',color: 'black'}}  placeholder="Username" onChangeText={(val) => { this.changeRegisterNameHandler(val) }}  />                
+        </View>        
+        
+        <View style={{ flexDirection:'row' }}>          
+        <Text style={{fontSize:20, color: 'black', backgroundColor : 'transparent'}}>Password: </Text>          
+        <TextInput style={{height: 30,fontSize:20, backgroundColor:'transparent', color : 'black'}}  placeholder="Password" secureTextEntry={true} onChangeText={(val) => { this.changeRegisterPasswordHandler(val) }}/>  
+        </View>
+
+        <View style={{ flexDirection:'row' }}>          
+        <Text style={{fontSize:20, color: 'black', backgroundColor : 'transparent'}}>Re-enter Password: </Text>          
+        <TextInput style={{height: 30,fontSize:20, backgroundColor:'transparent', color : 'black'}}  placeholder="Password" secureTextEntry={true} onChangeText={(val) => { this.changePass2Handler(val) }}/>  
+        </View> 
+
+        </View> 
+        <Button title="Register" onPress={this.handleRegister}/>
+        <Text style={{fontSize:15, backgroundColor: 'transparent', color: 'black'}}>{this.state.registerMessage}</Text>
+        </Overlay>
         
         </View>
 
-        <Button title="Login" onPress={this.toggleOverlayOpen}/>        
+        <Button title="Login" onPress={this.toggleOverlayOpen}/>
+        <Button title="Register" onPress={this.toggleOverlayOpenR}/>        
         </ImageBackground>
             
         </View>    
@@ -103,4 +132,33 @@ export default class Homescreen extends Component
     {
         global.password = val;  
     }
-}
+
+
+    handleRegister = async () =>   
+    {    
+        
+        if(global.registerPassword != global.registerSecondPassword)
+        {
+            this.setState({registerMessage: "Both passwords must match" });
+        }
+        else
+        {
+            this.setState({registerMessage: "" }); 
+        }
+    }
+
+    changeRegisterNameHandler = async (val) =>  
+    {    
+        global.registerName = val;  
+    }    
+    
+    changeRegisterPasswordHandler = async (val) =>  
+    {
+        global.registerPassword = val;  
+    }
+
+    changePass2Handler = async (val) =>  
+    {    
+        global.registerSecondPassword = val;  
+    }  
+}   
