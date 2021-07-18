@@ -97,6 +97,7 @@ export default {
         setsData: sets.data,
         height: 120,
         mySets: {},
+        username: null
     }),
     methods: {
         getCardCount(setID) {
@@ -114,6 +115,7 @@ export default {
     },
     created() {
         this.mySets = this.$session.get('sets');
+        this.username = this.$session.get('username');
     },
 };
 </script>

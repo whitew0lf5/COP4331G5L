@@ -150,7 +150,8 @@ export default {
         bigCardHeight: 120,
         currentSetCardCount: 0,
         currentCard: null,
-        cardDialogs: {}
+        cardDialogs: {},
+        username: null
     }),
     methods: {
         getCardCount() {
@@ -232,7 +233,20 @@ export default {
         addCard(cardID) {
         	this.mySets[this.mySetID].push(cardID)
         	this.$session.set('sets', this.mySets)
-        	// api call
+        	console.log(this.username)
+        	console.log(this.mySets)
+        	axios.post('http://198.199.67.109:3000/api/update', {sets: this.mySets}, {
+	                params: {
+	                    username: this.username,
+	                    sets: this.mySets,
+	                }
+        		}).then((response) => {
+        			console.log(response)
+
+        		}).catch((error) => {
+        			console.log(error);
+        			alert(error);
+        		})
         },
         removeCard(cardID) {
         	const pos = this.mySets[this.mySetID].indexOf(cardID)
@@ -240,12 +254,23 @@ export default {
         		this.mySets[this.mySetID].splice(pos, 1)
         	}
         	this.$session.set('sets', this.mySets)
-        	// api call
+        	axios.post('http://198.199.67.109:3000/api/update', {sets: this.mySets}, {
+	                params: {
+	                    username: this.username
+	                }
+        		}).then((response) => {
+        			console.log(response)
+
+        		}).catch((error) => {
+        			console.log(error);
+        			alert("Failed to Reach Server");
+        		})
         }
     },
     created() {
         this.mySets = this.$session.get('sets');
         this.mySetID = this.$session.get('currSet');
+        this.username = this.$session.get('username');
         this.setsData = sets.data;
         this.currentSetCardCount = this.getSetCardCount();
         this.loadCards();

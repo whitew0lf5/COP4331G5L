@@ -20,7 +20,7 @@ var database, collection;
 // -- API ROUTES --
 
 // Ping the api to see if it's running
-app.get('/api/ping', (req, res) => res.status(200).send('Ping!'));
+app.get('/api/ping', (req, res) => res.status(200).send('Ping!!!'));
 
 // Get a list of users. Params <username(String), password(String)>
 app.get('/api/login', (req, res) => {
@@ -70,17 +70,17 @@ app.post('/api/register', (req, res) => {
 
 // Update the user's set data with the input JS object. Params <username(String), sets(Object)>
 app.post('/api/update', (req, res) => {
-	collection.updateOne({"username": req.query.username}, {"sets": req.query.sets}).then( result => {
+	collection.update({"username": req.query.username}, {$set: {"sets": req.body.sets}}).then( result => {
 		if(result) {
 			return res.status(200).send({"message": "Sets Data Updated"})
 		} else {
-			return res.status(500).send({"message": "Sets Data Not Updated"})
+			return res.status(502).send({"message": "Sets Data Not Updated"})
 		}
 	}).catch( error => {
 		if(error) {
-			return res.status(500).send(error)
+			return res.status(501).send(error)
 		} else {
-			return res.status(500).send({"message": "Unknown Database Error"})
+			return res.status(503).send({"message": "Unknown Database Error"})
 		}
 	})
 })

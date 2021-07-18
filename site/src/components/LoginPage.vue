@@ -94,6 +94,7 @@ export default {
                         document.getElementById('loginError').style.display =
                             'none';
                         this.$session.set('sets', response.data.sets);
+                        this.$session.set('username', response.data.username);
                         this.$router.push('/sets');
                     })
                     .catch((error) => {
