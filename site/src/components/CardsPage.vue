@@ -90,15 +90,47 @@
                 style="overflow-y: scroll"
                 outlined
             >
-                <v-card
-                    width="160"
-                    v-for="item in setCards"
-                    :key="item.id"
-                    class="ma-4"
-                    :color="doesOwn(item.id)"
-                >
-                    <v-img :src="item.images.small" width="150"> </v-img>
-                </v-card>
+            	<v-dialog  v-for="item in setCards" v-model="cardDialogs[item.id]" :key="item.id">
+            		<template v-slot:activator="{ on, attrs }">
+            			<v-card
+		                    width="160"
+		                    :key="item.id"
+		                    class="ma-4"
+		                    :color="doesOwn(item.id)"
+		                    v-on="on"
+		                    v-bind="attrs"
+		                >
+                    		<v-img :src="item.images.small" width="150" :key="item.id"> </v-img>
+            			</v-card>
+            		</template>
+            		<v-card :key="item.id" height="600" width="600" class="mx-auto" shaped>
+            			<v-card-title :key="item.id">{{ item.name }}</v-card-title>
+            			<v-row>
+            			<v-col cols="8">
+            				<v-img :src="item.images.large" class="ma-auto"></v-img>
+            			</v-col>
+            			<v-col cols="4">
+            				<v-card-text>
+            					<h1>#{{item.number}}</h1>
+            					<v-divider color="white"></v-divider>
+            					<br/>
+            					<h3>Rarity: {{ item.rarity }}</h3>
+            					<v-divider color="white"></v-divider>
+            					<br/>
+            					<h3>Artist:</h3>
+            					<h3>{{ item.artist }}</h3>
+            					<v-divider color="white"></v-divider>
+            					<br/>
+            				</v-card-text>
+            				<v-card-actions>
+            					<v-btn color="#03B8E9" v-on:click="addCard(item.id)" v-if="!hasCard(item.id)">Add</v-btn>
+            					<v-btn color="#DA3B24" v-on:click="removeCard(item.id)" v-if="hasCard(item.id)">Remove</v-btn>
+            				</v-card-actions>
+            			</v-col>
+            		</v-row>
+            		</v-card>
+            	</v-dialog>
+                
             </v-card>
         </v-col>
     </v-row>
@@ -115,7 +147,10 @@ export default {
         mySets: null,
         mySetID: null,
         setLogoHeight: 280,
+        bigCardHeight: 120,
         currentSetCardCount: 0,
+        currentCard: null,
+        cardDialogs: {}
     }),
     methods: {
         getCardCount() {
@@ -139,7 +174,7 @@ export default {
         },
         doesOwn(itemID) {
             for (const card in this.mySets[this.mySetID]) {
-                if (card.id == itemID) {
+                if (this.mySets[this.mySetID][card] == itemID) {
                     return 'green';
                 }
             }
@@ -154,7 +189,7 @@ export default {
             return 'https://images.pokemontcg.io/base1/logo.png';
         },
         isLoaded() {
-            if (this.setsData && this.setcards && this.mySets && this.mySetID) {
+            if (this.setsData && this.setcards && this.mySets && this.mySetID && this.cardDialogs) {
                 return false;
             }
             return true;
@@ -167,9 +202,10 @@ export default {
                     },
                 })
                 .then((response) => {
-                    console.log('Axios Data:');
-                    console.log(response.data.data);
                     this.setCards = response.data.data;
+                    for (const card in this.setCards) {
+                    	this.cardDialogs[this.setCards[card].id] = false
+                    }
                 })
                 .catch((error) => {
                     console.log(error);
@@ -186,6 +222,26 @@ export default {
                 }
             }
         },
+        hasCard(cardID) {
+        	if (this.doesOwn(cardID) == "red") {
+        		return false
+        	} else {
+        		return true
+        	}
+        },
+        addCard(cardID) {
+        	this.mySets[this.mySetID].push(cardID)
+        	this.$session.set('sets', this.mySets)
+        	// api call
+        },
+        removeCard(cardID) {
+        	const pos = this.mySets[this.mySetID].indexOf(cardID)
+        	if (pos > -1) {
+        		this.mySets[this.mySetID].splice(pos, 1)
+        	}
+        	this.$session.set('sets', this.mySets)
+        	// api call
+        }
     },
     created() {
         this.mySets = this.$session.get('sets');
