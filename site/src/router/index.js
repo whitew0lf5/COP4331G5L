@@ -21,13 +21,13 @@ const routes = [
     {
         path: '/sets',
         name: 'Sets',
-        component: Sets
+        component: Sets,
     },
     {
         path: '/cards',
         name: 'Cards',
-        component: Cards
-    }
+        component: Cards,
+    },
 ];
 
 const router = new VueRouter({

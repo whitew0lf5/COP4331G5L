@@ -54,13 +54,18 @@
                     >
                         <template v-slot:default="{ item }" class="ma-auto">
                             <v-col align="center">
-                                <label class="mx-auto">{{ item.name }} {{getCardCount(item.id)}}/{{item.total}}</label>
-                                    <v-card
-                                        width="400"
-                                        height="height"
-                                        color="#294673"
-                                        v-on:click="routeToCards(item.id)"
-                                    >
+                                <label class="mx-auto"
+                                    >{{ item.name }}
+                                    {{ getCardCount(item.id) }}/{{
+                                        item.total
+                                    }}</label
+                                >
+                                <v-card
+                                    width="400"
+                                    height="height"
+                                    color="#294673"
+                                    v-on:click="routeToCards(item.id)"
+                                >
                                     <v-img
                                         :src="item.images.logo"
                                         :key="item.id"
@@ -91,21 +96,21 @@ export default {
     data: () => ({
         setsData: sets.data,
         height: 120,
-        mySets: {}
+        mySets: {},
     }),
     methods: {
         getCardCount(setID) {
-            return this.mySets[setID].length
+            return this.mySets[setID].length;
         },
         logout() {
-            this.$session.clear()
+            this.$session.clear();
             // Redirect to login
         },
         routeToCards(setID) {
-            console.log(setID)
-            this.$session.set('currSet', setID)
-            this.$router.push('/cards')
-        }
+            console.log(setID);
+            this.$session.set('currSet', setID);
+            this.$router.push('/cards');
+        },
     },
     created() {
         this.mySets = this.$session.get('sets');

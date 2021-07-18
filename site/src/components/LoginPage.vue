@@ -93,9 +93,8 @@ export default {
                         console.log(response);
                         document.getElementById('loginError').style.display =
                             'none';
-                        this.$session.set('sets', response.data.sets)
+                        this.$session.set('sets', response.data.sets);
                         this.$router.push('/sets');
-
                     })
                     .catch((error) => {
                         this.loading = false;
@@ -110,7 +109,7 @@ export default {
     },
     mounted() {
         document.getElementById('loginError').style.display = 'none';
-        this.$session.clear()
+        this.$session.clear();
     },
 };
 </script>
