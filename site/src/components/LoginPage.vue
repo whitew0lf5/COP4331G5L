@@ -93,8 +93,9 @@ export default {
                         console.log(response);
                         document.getElementById('loginError').style.display =
                             'none';
-                        console.log('Logged In!');
+                        this.$session.set('sets', response.data.sets)
                         this.$router.push('/sets');
+
                     })
                     .catch((error) => {
                         this.loading = false;

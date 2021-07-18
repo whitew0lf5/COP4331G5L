@@ -124,7 +124,7 @@ export default {
                     return;
                 }
                 axios
-                    .post('http://198.199.67.109:3000/api/register', {
+                    .post('http://198.199.67.109:3000/api/register', null, {
                         params: {
                             username: this.usernameInput,
                             password: this.passwordInput1,

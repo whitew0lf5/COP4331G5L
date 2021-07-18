@@ -46,7 +46,7 @@
                 <v-card class="mr-10 ml-16" width="400" color="#152D56">
                     <v-virtual-scroll
                         bench="15"
-                        :items="mySets"
+                        :items="setsData"
                         height="91vh"
                         width="400"
                         class="mx-auto"
@@ -54,12 +54,10 @@
                     >
                         <template v-slot:default="{ item }" class="ma-auto">
                             <v-col align="center">
-                                <label class="mx-auto">{{ item.name }}</label>
+                                <label class="mx-auto">{{ item.name }} {{getCardCount(item.id)}}/{{item.total}}</label>
                                 <router-link
-                                    :to="{
-                                        path: '/cards',
-                                        params: { setID: item.id },
-                                    }"
+                                    to='/cards'
+                                    @click.native="routeToCards(item.id)"
                                 >
                                     <v-img
                                         :src="item.images.logo"
@@ -89,35 +87,25 @@ const sets = require('../../../data/sets.json');
 export default {
     name: 'SetsPage',
     data: () => ({
-        mySets: sets.data,
+        setsData: sets.data,
         height: 120,
+        mySets: {}
     }),
     methods: {
-        getHeight(url, callback) {
-            var img = new Image();
-            img.src = url;
-            img.onload = function () {
-                callback(this.height);
-            };
+        getCardCount(setID) {
+            return this.mySets[setID].length
         },
-        getWidth(url) {
-            var img = new Image();
-            img.src = url;
-            img.onload = function () {
-                console.log((this.width / this.height) * 240);
-            };
-            return 200;
+        logout() {
+            this.$session.clear()
+            // Redirect to login
         },
-        getAspectRatio(url, callback) {
-            var img = new Image();
-            img.src = url;
-            img.onload = function () {
-                callback(this.width, this.height);
-            };
-        },
+        routeToCards(setID) {
+            console.log(setID)
+            this.$session.set('currSet', setID)
+        }
     },
-    mounted() {
-        console.log(this.mySets);
+    created() {
+        this.mySets = this.$session.get('sets');
     },
 };
 </script>

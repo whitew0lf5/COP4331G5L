@@ -43,7 +43,9 @@ app.post('/api/register', (req, res) => {
 			return res.status(500).send(error);
 		}
 		if (result) {
-			return res.status(409).send({"message": "Username already associated with existing user"});
+			console.log(result)
+			console.log(result.status)
+			return res.status(409).send({"message": "Username Already Associated With Existing User"});
 		} else {
 			// Build a dictionary/hashmap/object of set IDs that will map to an array of owned cards
 			var userSets = {};
@@ -59,12 +61,29 @@ app.post('/api/register', (req, res) => {
 				if (result) {
 					return res.status(200).send({"message": "Register Successful"});
 				} else {
-					return res.status(500).send({"message": "Database write operation failed"});
+					return res.status(500).send({"message": "Database Write Operation Failed"});
 				}
 			})
 		}
 	});
 });
+
+// Update the user's set data with the input JS object. Params <username(String), sets(Object)>
+app.post('/api/update', (req, res) => {
+	collection.updateOne({"username": req.query.username}, {"sets": req.query.sets}).then( result => {
+		if(result) {
+			return res.status(200).send({"message": "Sets Data Updated"})
+		} else {
+			return res.status(500).send({"message": "Sets Data Not Updated"})
+		}
+	}).catch( error => {
+		if(error) {
+			return res.status(500).send(error)
+		} else {
+			return res.status(500).send({"message": "Unknown Database Error"})
+		}
+	})
+})
 
 // Connect to the database and launch the API
 app.listen(port, () => {
