@@ -110,6 +110,7 @@ export default {
     },
     mounted() {
         document.getElementById('loginError').style.display = 'none';
+        this.$session.clear()
     },
 };
 </script>

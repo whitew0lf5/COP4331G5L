@@ -55,10 +55,12 @@
                         <template v-slot:default="{ item }" class="ma-auto">
                             <v-col align="center">
                                 <label class="mx-auto">{{ item.name }} {{getCardCount(item.id)}}/{{item.total}}</label>
-                                <router-link
-                                    to='/cards'
-                                    @click.native="routeToCards(item.id)"
-                                >
+                                    <v-card
+                                        width="400"
+                                        height="height"
+                                        color="#294673"
+                                        v-on:click="routeToCards(item.id)"
+                                    >
                                     <v-img
                                         :src="item.images.logo"
                                         :key="item.id"
@@ -71,7 +73,7 @@
                                         class="ma-auto"
                                     >
                                     </v-img>
-                                </router-link>
+                                </v-card>
                                 <v-divider color="white"></v-divider>
                             </v-col>
                         </template>
@@ -102,6 +104,7 @@ export default {
         routeToCards(setID) {
             console.log(setID)
             this.$session.set('currSet', setID)
+            this.$router.push('/cards')
         }
     },
     created() {
