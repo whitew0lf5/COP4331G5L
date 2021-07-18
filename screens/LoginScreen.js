@@ -12,6 +12,7 @@ global.password = '';
 global.registerName = '';
 global.registerPassword = '';
 global.registerSecondPassword = '';
+global.res = -1;
 
 export default class Homescreen extends Component 
 { 
@@ -95,6 +96,7 @@ export default class Homescreen extends Component
         )  
         
     }
+
     handleClick = async () =>   
     {    
         try    
@@ -115,6 +117,7 @@ export default class Homescreen extends Component
                 this.setState({message: "" });
                 this.props.navigation.navigate('Card');
             }
+
               
         }    
         catch(e)   
@@ -137,13 +140,45 @@ export default class Homescreen extends Component
     handleRegister = async () =>   
     {    
         
-        if(global.registerPassword != global.registerSecondPassword)
+        if(global.registerName == '' )
         {
-            this.setState({registerMessage: "Both passwords must match" });
+            this.setState({registerMessage: "Username required"});
+        }
+        else if(global.registerPassword != global.registerSecondPassword)
+        {
+            this.setState({registerMessage: "Both passwords must match" })
         }
         else
         {
             this.setState({registerMessage: "" }); 
+
+            var obj = {login:global.registerName.trim(),password:global.registerPassword.trim()};     
+            var js = JSON.stringify(obj);
+            await axios.post('http://198.199.67.109:3000/api/register', null, {
+                params: 
+                {
+                        username: global.registerName,
+                        password: global.registerPassword,
+                },
+            })
+            .then(function (response) 
+             {
+                global.res = JSON.stringify(response.status);
+            })
+            .catch(function (error) 
+            {
+                global.res = 409;
+            });
+
+            if(res == 200)
+            {
+                this.setState({registerVisible: false});
+                this.setState({registerMessage: ''});
+            }
+            else if(res == 409)
+            {
+                this.setState({registerMessage: "User already exists"});
+            }
         }
     }
 
@@ -160,5 +195,5 @@ export default class Homescreen extends Component
     changePass2Handler = async (val) =>  
     {    
         global.registerSecondPassword = val;  
-    }  
+    }
 }   
