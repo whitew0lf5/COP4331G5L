@@ -32,8 +32,8 @@ const routes = [
     {
         path: '/verify',
         name: 'Verify',
-        component: Verify
-    }
+        component: Verify,
+    },
 ];
 
 const router = new VueRouter({

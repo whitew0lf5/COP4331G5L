@@ -13,6 +13,7 @@
                     width="780"
                     height="270"
                     color="#0B182C"
+                    dark
                 >
                     <v-row>
                         <v-col cols="8">
@@ -43,7 +44,7 @@
                 ></v-img>
             </v-card>
             <v-col>
-                <v-card class="mr-10 ml-16" width="400" color="#152D56">
+                <v-card class="mr-10 ml-16" width="400" color="#152D56" dark>
                     <v-virtual-scroll
                         bench="15"
                         :items="setsData"
@@ -97,7 +98,7 @@ export default {
         setsData: sets.data,
         height: 120,
         mySets: {},
-        username: null
+        username: null,
     }),
     methods: {
         getCardCount(setID) {

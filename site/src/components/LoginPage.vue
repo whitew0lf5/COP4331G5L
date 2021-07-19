@@ -14,7 +14,7 @@
                 <v-card
                     outline
                     class="mx-auto my-12"
-                    color="#DA3B24"
+                    color="#152D56"
                     max-width="500"
                     :loading="loading"
                 >
@@ -32,6 +32,7 @@
                                 label="Username"
                                 v-model="usernameInput"
                                 :rules="[rules.required]"
+                                dark
                             ></v-text-field>
                             <v-text-field
                                 label="Password"
@@ -40,17 +41,21 @@
                                 :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
                                 :type="show1 ? 'text' : 'password'"
                                 @click:append="show1 = !show1"
+                                dark
                             ></v-text-field>
                         </v-form>
                     </v-col>
                     <v-row>
-                        <label class="mx-auto" id="loginError"
-                            ></label
-                        >
+                        <label class="mx-auto" id="loginError"></label>
                     </v-row>
                     <v-row>
-                        <v-btn class="mx-auto" to="/register">Sign Up</v-btn>
-                        <v-btn class="mx-auto" v-on:click="performLogin"
+                        <v-btn class="mx-auto" to="/register" color="#DA3B24"
+                            >Sign Up</v-btn
+                        >
+                        <v-btn
+                            class="mx-auto"
+                            v-on:click="performLogin"
+                            color="#DA3B24"
                             >Login</v-btn
                         >
                     </v-row>
@@ -93,12 +98,12 @@ export default {
                         this.loading = false;
                         console.log(response);
                         if (!response.data.verified) {
-                            console.log("not verified")
+                            console.log('not verified');
                             document.getElementById('loginError').innerHTML =
-                            'Email not yet verified';
-                            document.getElementById('loginError').style.display =
-                            'inline';
-                            
+                                'Email not yet verified';
+                            document.getElementById(
+                                'loginError'
+                            ).style.display = 'inline';
                             return;
                         }
                         document.getElementById('loginError').style.display =
@@ -113,7 +118,7 @@ export default {
                         document.getElementById('loginError').style.display =
                             'inline';
                         document.getElementById('loginError').innerHTML =
-                        'Invalid Username or Password';
+                            'Invalid Username or Password';
                     });
             } else {
                 this.loading = false;

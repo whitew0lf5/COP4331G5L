@@ -17,7 +17,12 @@
             </div>
 
             <v-spacer></v-spacer>
-            <v-btn color="#0B182C" v-if="hideLogout()" v-on:click="performLogout()">Logout</v-btn>
+            <v-btn
+                color="#0B182C"
+                v-if="hideLogout()"
+                v-on:click="performLogout()"
+                >Logout</v-btn
+            >
         </v-app-bar>
 
         <v-main>
@@ -30,21 +35,19 @@
 export default {
     name: 'App',
 
-    data: () => ({
-    }),
+    data: () => ({}),
     methods: {
         hideLogout() {
-            if (this.$route.name == "Login" || this.$route.name == "Verify") {
-                return false
+            if (this.$route.name == 'Login' || this.$route.name == 'Verify') {
+                return false;
             } else {
-                return true
+                return true;
             }
         },
         performLogout() {
-            this.$router.push('/')
-        }
-    }
-
+            this.$router.push('/');
+        },
+    },
 };
 </script>
 
@@ -52,5 +55,16 @@ export default {
 #app {
     background: url('./assets/bluebg.jpg');
     background-size: cover;
+}
+
+html {
+    overflow: hidden !important;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+html::-webkit-scrollbar {
+    width: 0;
+    height: 0;
 }
 </style>

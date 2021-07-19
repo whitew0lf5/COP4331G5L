@@ -37,7 +37,7 @@
                 <v-card
                     outline
                     class="mx-auto my-12"
-                    color="#DA3B24"
+                    color="#152D56"
                     max-width="500"
                     :loading="loading"
                 >
@@ -54,12 +54,14 @@
                             label="Username"
                             v-model="usernameInput"
                             :rules="[rules.required]"
+                            dark
                         ></v-text-field>
                         <v-text-field
                             label="Email"
                             v-model="emailInput"
                             :rules="[rules.required, rules.email]"
-                            >
+                            dark
+                        >
                         </v-text-field>
                         <v-text-field
                             label="Enter Your Password"
@@ -69,6 +71,7 @@
                             :type="show1 ? 'text' : 'password'"
                             hint="At least 8 characters"
                             @click:append="show1 = !show1"
+                            dark
                         ></v-text-field>
                         <v-text-field
                             label="Enter Your Password Again"
@@ -78,14 +81,20 @@
                             :type="show2 ? 'text' : 'password'"
                             hint="At least 8 characters"
                             @click:append="show2 = !show2"
+                            dark
                         ></v-text-field>
                     </v-form>
                     <v-row>
                         <label class="mx-auto" id="registerError"></label>
                     </v-row>
                     <v-row>
-                        <v-btn class="mx-auto" to="/">Cancel</v-btn>
-                        <v-btn class="mx-auto" v-on:click="performRegistration"
+                        <v-btn class="mx-auto" to="/" color="#DA3B24"
+                            >Cancel</v-btn
+                        >
+                        <v-btn
+                            class="mx-auto"
+                            v-on:click="performRegistration"
+                            color="#DA3B24"
                             >Submit</v-btn
                         >
                     </v-row>
@@ -111,7 +120,7 @@ export default {
         rules: {
             required: (value) => !!value || 'Required',
             min: (v) => v.length >= 8 || 'Minimum of 8 characters',
-            email: v => /.+@.+\..+/.test(v) || 'E-mail must be valid'
+            email: (v) => /.+@.+\..+/.test(v) || 'E-mail must be valid',
         },
     }),
     methods: {
@@ -145,10 +154,15 @@ export default {
                             console.log(response);
                             this.loading = false;
                             // Send verification email
-                            emailjs.send('dream5Team', 'template_y5so3r9', {
-                                username: this.usernameInput,
-                                to: this.emailInput
-                            }, 'user_K6vGRZGvw7nrh6PmSSw3N')
+                            emailjs.send(
+                                'dream5Team',
+                                'template_y5so3r9',
+                                {
+                                    username: this.usernameInput,
+                                    to: this.emailInput,
+                                },
+                                'user_K6vGRZGvw7nrh6PmSSw3N'
+                            );
 
                             console.log(response);
                             this.loading = false;
