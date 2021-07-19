@@ -56,6 +56,12 @@
                             :rules="[rules.required]"
                         ></v-text-field>
                         <v-text-field
+                            label="Email"
+                            v-model="emailInput"
+                            :rules="[rules.required, rules.email]"
+                            >
+                        </v-text-field>
+                        <v-text-field
                             label="Enter Your Password"
                             v-model="passwordInput1"
                             :rules="[rules.required, rules.min]"
@@ -91,11 +97,13 @@
 
 <script>
 const axios = require('axios').default;
+import emailjs from 'emailjs-com';
 export default {
     name: 'RegisterPage',
     data: () => ({
         loading: false,
         usernameInput: '',
+        emailInput: '',
         passwordInput1: '',
         passwordInput2: '',
         show1: false,
@@ -103,6 +111,7 @@ export default {
         rules: {
             required: (value) => !!value || 'Required',
             min: (v) => v.length >= 8 || 'Minimum of 8 characters',
+            email: v => /.+@.+\..+/.test(v) || 'E-mail must be valid'
         },
     }),
     methods: {
@@ -127,11 +136,20 @@ export default {
                     .post('http://198.199.67.109:3000/api/register', null, {
                         params: {
                             username: this.usernameInput,
+                            email: this.emailInput,
                             password: this.passwordInput1,
                         },
                     })
                     .then(
                         (response) => {
+                            console.log(response);
+                            this.loading = false;
+                            // Send verification email
+                            emailjs.send('dream5Team', 'template_y5so3r9', {
+                                username: this.usernameInput,
+                                to: this.emailInput
+                            }, 'user_K6vGRZGvw7nrh6PmSSw3N')
+
                             console.log(response);
                             this.loading = false;
                             this.$router.push('/');

@@ -4,6 +4,7 @@ import Login from '../views/Login.vue';
 import Register from '../views/Register.vue';
 import Sets from '../views/Sets.vue';
 import Cards from '../views/Cards.vue';
+import Verify from '../views/Verify.vue';
 
 Vue.use(VueRouter);
 
@@ -28,6 +29,11 @@ const routes = [
         name: 'Cards',
         component: Cards,
     },
+    {
+        path: '/verify',
+        name: 'Verify',
+        component: Verify
+    }
 ];
 
 const router = new VueRouter({

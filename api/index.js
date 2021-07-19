@@ -29,7 +29,7 @@ app.get('/api/login', (req, res) => {
 			return res.status(500).send(error);
 		}
 		if (result) {
-			res.status(200).send({"message": "Login Successful", "username": req.query.username, "sets": result.sets});
+			res.status(200).send({"message": "Login Successful", "username": req.query.username, "sets": result.sets, "verified": result.verified});
 		} else {
 			res.status(401).send({"message": "Invalid User"});
 		}
@@ -54,7 +54,7 @@ app.post('/api/register', (req, res) => {
 				userSets[setID] = []; 
 			}
 
-			collection.insertOne({"username": req.query.username, "password": req.query.password, "sets": userSets}, (error, result) => {
+			collection.insertOne({"username": req.query.username, "email": req.query.email, "verified": false, "password": req.query.password, "sets": userSets}, (error, result) => {
 				if (error) {
 					return res.status(500).send(error);
 				}
@@ -81,6 +81,23 @@ app.post('/api/update', (req, res) => {
 			return res.status(501).send(error)
 		} else {
 			return res.status(503).send({"message": "Unknown Database Error"})
+		}
+	})
+})
+
+// Update the user's verified status to true. Params <username(String)>
+app.post('/api/verify', (req, res) => {
+	collection.update({"username": req.query.username}, {$set: {"verified": true}}).then(result => {
+		if(result) {
+			return res.status(200).send({"message": "verified"})
+		} else {
+			return res.status(500).send({"message": "Internal Database Error"})
+		}
+	}).catch( error => {
+		if (error) {
+			return res.status(500).send(error)
+		} else {
+			return res.status(500).send({"message": "Unknown Error"})
 		}
 	})
 })

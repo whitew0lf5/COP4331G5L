@@ -45,7 +45,7 @@
                     </v-col>
                     <v-row>
                         <label class="mx-auto" id="loginError"
-                            >Invalid Username or Password</label
+                            ></label
                         >
                     </v-row>
                     <v-row>
@@ -73,6 +73,7 @@ export default {
         usernameInput: '',
         passwordInput: '',
         show1: false,
+        forgotPasswordDialog: false,
         rules: {
             required: (value) => !!value || 'Required',
         },
@@ -91,6 +92,15 @@ export default {
                     .then((response) => {
                         this.loading = false;
                         console.log(response);
+                        if (!response.data.verified) {
+                            console.log("not verified")
+                            document.getElementById('loginError').innerHTML =
+                            'Email not yet verified';
+                            document.getElementById('loginError').style.display =
+                            'inline';
+                            
+                            return;
+                        }
                         document.getElementById('loginError').style.display =
                             'none';
                         this.$session.set('sets', response.data.sets);
@@ -102,6 +112,8 @@ export default {
                         console.log(error);
                         document.getElementById('loginError').style.display =
                             'inline';
+                        document.getElementById('loginError').innerHTML =
+                        'Invalid Username or Password';
                     });
             } else {
                 this.loading = false;
