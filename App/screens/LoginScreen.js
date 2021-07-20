@@ -1,5 +1,6 @@
 import React, { Component, useState } from 'react';
 import { Button, ImageBackground ,View, Text, TextInput,Dimensions, Linking} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Overlay from 'react-native-modal-overlay';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 import axios from 'axios';
@@ -17,6 +18,8 @@ global.email1 = '';
 global.email2 = '';
 global.res = -1;
 global.forgotName = '';
+global.uName = '';
+global.sets = '';
 
 export default class Homescreen extends Component 
 { 
@@ -165,6 +168,10 @@ export default class Homescreen extends Component
                 },
             });
 
+            global.setList = JSON.stringify(response.data.sets);
+            global.uName = JSON.stringify(response.data.username);
+           
+
             if(!response.data.verified)
             {
                 this.setState({message: "User not yet verified"});
@@ -173,8 +180,7 @@ export default class Homescreen extends Component
             {
                 this.setState({modalVisible: false});
                 this.setState({message: "" });
-                this.props.navigation.navigate('Card');
-                
+                this.props.navigation.navigate('Card');   
             }
 
               
@@ -183,6 +189,9 @@ export default class Homescreen extends Component
         {
             this.setState({message: "Username/Password combination incorrect" });
         }  
+
+        AsyncStorage.setItem('username', global.uName);
+        AsyncStorage.setItem('sets', global.setList);
     }   
     
     changeLoginNameHandler = async (val) =>  
@@ -309,15 +318,12 @@ export default class Homescreen extends Component
                     to: email,
                 },
                 'user_K6vGRZGvw7nrh6PmSSw3N'
-            );
-
-            
-
-              
+            );   
         }    
         catch(e)   
         {
             this.setState({forgotMessage: "User does not exist" });
         }  
-    }   
-}   
+    }
+    
+}  
