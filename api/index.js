@@ -87,7 +87,7 @@ app.post('/api/update', (req, res) => {
 
 // Update the user's verified status to true. Params <username(String)>
 app.post('/api/verify', (req, res) => {
-	collection.update({"username": req.query.username}, {$set: {"verified": true}}).then(result => {
+	collection.update({"username": req.query.username}, {$set: {"verified": true}}).then( result => {
 		if(result) {
 			return res.status(200).send({"message": "verified"})
 		} else {
@@ -100,6 +100,37 @@ app.post('/api/verify', (req, res) => {
 			return res.status(500).send({"message": "Unknown Error"})
 		}
 	})
+})
+
+// Update the user's verified status to true. Params <username(String)>
+app.post('/api/updatepassword', (req, res) => {
+	collection.update({"username": req.query.username}, {$set: {"password": req.query.password}}).then(result => {
+		if(result) {
+			return res.status(200).send({"message": "Password Updated"});
+		} else {
+			return res.status(500).send({"message": "Internal Database Error"})
+		}
+	}).catch( error => {
+		if (error) {
+			return res.status(500).send(error)
+		} else {
+			return res.status(500).send({"message": "Unknown Error"})
+		}
+	})
+})
+
+// Get a user's email. Params <username(String)>
+app.get('/api/email', (req, res) => {
+	collection.findOne({ "username": req.query.username}, function(error, result) {
+		if (error) {
+			return res.status(500).send(error);
+		}
+		if (result) {
+			res.status(200).send({"message": "Email Retrieved", "email": result.email});
+		} else {
+			res.status(401).send({"message": "Invalid User"});
+		}
+	});
 })
 
 // Connect to the database and launch the API

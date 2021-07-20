@@ -5,6 +5,7 @@ import Register from '../views/Register.vue';
 import Sets from '../views/Sets.vue';
 import Cards from '../views/Cards.vue';
 import Verify from '../views/Verify.vue';
+import Reset from '../views/Reset.vue';
 
 Vue.use(VueRouter);
 
@@ -33,6 +34,11 @@ const routes = [
         path: '/verify',
         name: 'Verify',
         component: Verify,
+    },
+    {
+        path: '/reset',
+        name: 'Reset',
+        component: Reset,
     },
 ];
 

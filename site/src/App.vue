@@ -38,7 +38,11 @@ export default {
     data: () => ({}),
     methods: {
         hideLogout() {
-            if (this.$route.name == 'Login' || this.$route.name == 'Verify') {
+            if (
+                this.$route.name == 'Login' ||
+                this.$route.name == 'Verify' ||
+                this.$route.name == 'Reset'
+            ) {
                 return false;
             } else {
                 return true;
