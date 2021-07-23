@@ -29,7 +29,9 @@ class Cardscreen extends Component
         return (      
             <View>
             {
+               // I couldn't get this map method to work which should interate over the array of items and render each one
                this.state.data.map((item) => (
+                  // I planned to add a onPress to TouchableOpacity but I couldn't get the Sets to display
                   <TouchableOpacity
                      key = {item.id}
                      style = {styles.container}>
