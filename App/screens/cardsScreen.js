@@ -30,6 +30,8 @@ const styles = StyleSheet.create(
 export default class Cardscreen extends Component 
 {  
     
+    
+
     getListViewItem = async (item, index) => {  
             this.setState({check: item.id});
             
@@ -79,7 +81,8 @@ export default class Cardscreen extends Component
             
             //console.log(global.sets);
             
-            console.log(typeof(global.uName));
+            console.log(global.uName);
+
             await axios.post(
                     'http://198.199.67.109:3000/api/update',
                     {sets: global.sets},
@@ -103,6 +106,12 @@ export default class Cardscreen extends Component
     };
 }
     
+    componentWillMount()
+    {
+        global.uName = global.uName.slice(1,global.uName.length-1);
+    }
+
+
     render() 
     {
         return (      
