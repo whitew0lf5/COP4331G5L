@@ -190,6 +190,8 @@ export default class Homescreen extends Component
             this.setState({message: "Username/Password combination incorrect" });
         }  
 
+        
+
         AsyncStorage.setItem('username', global.uName);
         AsyncStorage.setItem('sets', global.setList);
     }   
@@ -326,4 +328,4 @@ export default class Homescreen extends Component
         }  
     }
     
-}  
+}   
