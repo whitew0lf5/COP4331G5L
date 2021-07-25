@@ -140,4 +140,4 @@ export default class Cardscreen extends Component
         </View>    )  
     }
 
-}
+}         
