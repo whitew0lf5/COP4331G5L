@@ -6,7 +6,7 @@ API for COP4331 Group 5's Large Project
 3. To manually run the API on your local machine or the server, enter the command `node index.js`
 
 ## Using
-All API endpoints are prefixed with `http://198.199.67.109:5000` if run on the Digital Ocean server. Otherwise if you're testing on your local machine use `http://localhost:5000`
+All API endpoints are prefixed with `http://198.199.67.109:3000` if run on the Digital Ocean server. Otherwise if you're testing on your local machine use `http://localhost:3000`
 
 ## Endpoints
 
@@ -33,14 +33,6 @@ Sample 200 Response
 	}
 }
 ```
-
-### /api/register
-Query Parameters
-
-1. **username** -> **String**
-2. **password** -> **String**
-
-Returns a response code of 500 if database crud fails, 409 if a user with the associated username already exists, and 200 if the user was registered successfully
 
 ### /api/register
 Query Parameters:
