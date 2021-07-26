@@ -50,6 +50,7 @@
                     </template>
 
                     <v-form ref="form">
+                        <v-col>
                         <v-text-field
                             label="Username"
                             v-model="usernameInput"
@@ -83,6 +84,7 @@
                             @click:append="show2 = !show2"
                             dark
                         ></v-text-field>
+                    </v-col>
                     </v-form>
                     <v-row>
                         <label class="mx-auto" id="registerError"></label>

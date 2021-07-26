@@ -4,16 +4,19 @@
             <v-col></v-col>
             <v-card
                 width="600"
-                height="700"
+                height="765"
                 color="#152D56"
                 class="mx-auto"
                 outlined
             >
                 <v-col>
+                    <v-card width="580" height="45" color="#0B182C" dark>
+                        <v-text-field width="580" label="Card Search" v-model="searchText"></v-text-field>
+                    </v-card>
                     <v-card
                         width="580"
                         height="300"
-                        class="mx-auto"
+                        class="mx-auto mt-3"
                         color="#0B182C"
                     >
                         <v-col>
@@ -144,7 +147,7 @@
                     :key="item.id"
                     class="ma-4"
                     :color="doesOwn(item.id)"
-                    v-for="item in setCards"
+                    v-for="item in setSearchedCards"
                     v-on:click="openDialog(item)"
                 >
                     <v-img :src="item.images.small" width="150" :key="item.id">
@@ -180,6 +183,7 @@ export default {
         },
         dialog: false,
         username: null,
+        searchText: '',
     }),
     methods: {
         getCardCount() {
@@ -308,6 +312,11 @@ export default {
                     alert('Failed to Reach Server');
                 });
         },
+        isSearched(setName) {
+            var name = setName.toLowerCase()
+            var search = this.searchText.toLowerCase()
+            return name.includes(search)
+        },
         openDialog(card) {
             this.myCard = card;
             this.dialog = true;
@@ -315,6 +324,11 @@ export default {
         closeDialog() {
             this.dialog = false;
         },
+    },
+    computed: {
+        setSearchedCards: function() {
+            return this.setCards.filter(i => i.name.toLowerCase().includes(this.searchText.toLowerCase()))
+        }
     },
     created() {
         this.mySets = this.$session.get('sets');

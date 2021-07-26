@@ -2,14 +2,21 @@
     <v-row>
         <v-row> </v-row>
         <v-row>
+            <v-col>
+                <v-card width="800" height="45" class="my-auto" color="#0B182C" dark>
+                    <v-text-field width="400" label="Set Name Search" v-model="searchText"></v-text-field>
+                </v-card>
+                <v-col></v-col>
+                <v-col></v-col>
             <v-card
                 class="my-auto mr-16"
                 width="800"
                 height="700"
                 color="#152D56"
             >
+            <v-col>
                 <v-card
-                    class="mx-auto mt-5"
+                    class="mx-auto mt-3"
                     width="780"
                     height="270"
                     color="#0B182C"
@@ -36,36 +43,34 @@
                         </v-col>
                     </v-row>
                 </v-card>
+            </v-col>
                 <v-img
                     :src="require('../assets/pkmportrait.jpg')"
                     width="780"
-                    height="400"
-                    class="mx-auto mt-3"
+                    height="395"
+                    class="mx-auto"
                 ></v-img>
             </v-card>
+        </v-col>
             <v-col>
-                <v-card class="mr-10 ml-16" width="400" color="#152D56" dark>
-                    <v-virtual-scroll
-                        bench="15"
-                        :items="setsData"
-                        height="91vh"
-                        width="400"
-                        class="mx-auto"
-                        item-height="150"
-                    >
-                        <template v-slot:default="{ item }" class="ma-auto">
-                            <v-col align="center">
-                                <label class="mx-auto"
-                                    >{{ item.name }}
-                                    {{ getCardCount(item.id) }}/{{
-                                        item.total
-                                    }}</label
-                                >
+                <v-card width="400" height="85vh" color="#152D56" class="d-flex align-content-start flex-wrap my-auto"
+                style="overflow-y: scroll" dark>
+                <v-col>
+                                
                                 <v-card
+                                    class="my-2 mx-auto"
                                     width="400"
                                     height="height"
                                     color="#294673"
+                                    v-for="item in setsSearchedData"
+                                    :key="item.id"
                                     v-on:click="routeToCards(item.id)"
+                                    outlined
+                                >
+                                <label>{{ item.name }}
+                                    {{ getCardCount(item.id) }}/{{
+                                        item.total
+                                    }}</label
                                 >
                                     <v-img
                                         :src="item.images.logo"
@@ -80,10 +85,7 @@
                                     >
                                     </v-img>
                                 </v-card>
-                                <v-divider color="white"></v-divider>
-                            </v-col>
-                        </template>
-                    </v-virtual-scroll>
+                                </v-col>
                 </v-card>
             </v-col>
         </v-row>
@@ -99,23 +101,27 @@ export default {
         height: 120,
         mySets: {},
         username: null,
+        searchText: '',
     }),
     methods: {
         getCardCount(setID) {
             return this.mySets[setID].length;
         },
-        logout() {
-            this.$session.clear();
-            // Redirect to login
-        },
         routeToCards(setID) {
             console.log(setID);
             this.$session.set('currSet', setID);
             this.$router.push('/cards');
-        },
+        }
+    },
+    computed: {
+        setsSearchedData: function() {
+            return this.setsData.filter(i => i.name.toLowerCase().includes(this.searchText.toLowerCase()));
+        }
     },
     created() {
         this.mySets = this.$session.get('sets');
+        console.log("Looking at my sets")
+        console.log(this.mySets);
         this.username = this.$session.get('username');
     },
 };

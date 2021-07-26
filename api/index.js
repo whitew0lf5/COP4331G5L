@@ -70,7 +70,7 @@ app.post('/api/register', (req, res) => {
 
 // Update the user's set data with the input JS object. Params <username(String), sets(Object)>
 app.post('/api/update', (req, res) => {
-	collection.update({"username": req.query.username}, {$set: {"sets": req.body.sets}}).then( result => {
+	collection.updateOne({"username": req.query.username}, {$set: {"sets": req.body.sets}}).then( result => {
 		if(result) {
 			return res.status(200).send({"message": "Sets Data Updated"})
 		} else {
