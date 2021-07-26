@@ -41,3 +41,40 @@ Query Parameters
 2. **password** -> **String**
 
 Returns a response code of 500 if database crud fails, 409 if a user with the associated username already exists, and 200 if the user was registered successfully
+
+### /api/register
+Query Parameters:
+1. **username** -> **String**
+2. **password** -> **String**
+3. **email** -> **String**
+
+Returns a status code of 200 if user was inserted successfully and 409 if the user already exists
+
+### /api/update
+Query Parameters
+1. **username** -> **String**
+2. **sets** -> **Object**
+
+Returns a 200 if the user has its sets data overwritten and 500 if any error occurs
+
+### /api/verify
+
+Query Parameters
+1. **username** -> **String**
+
+Returns 200 if a user successfuly has its verify attribute seet from false to true and 500 otherwise
+
+### /api/updatepassword
+
+Query Parameters
+1. **username** -> **String**
+2. **password*8 -> **String**
+
+returns 200 if the user with the corresponding username has its password data overwritten with the passed password string
+
+### /api/email
+
+Query Parameters
+1. **username** -> **String**
+
+returns 200 if an email attached to the passed username was retrieved
